@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VisekaiCity — Official</title>
+<style>
+  :root{
+    --bg1:#022a64;
+    --bg2:#0057b8;
+    --card:#06213a;
+    --glass: rgba(255,255,255,0.04);
+    --accent: #7fd1ff;
+    --text: #e9f2ff;
+    --muted: #bcd6ff;
+    --radius: 14px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color:var(--text);
+    background: linear-gradient(120deg,var(--bg1),var(--bg2));
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    position:relative;
+    overflow:auto;
+  }
+
+  .animated-bg{
+    position:fixed;
+    inset:-20%;
+    background: radial-gradient(800px 400px at 10% 20%, rgba(127,209,255,0.06), transparent 8%),
+                radial-gradient(600px 300px at 90% 80%, rgba(127,209,255,0.04), transparent 10%),
+                linear-gradient(120deg,var(--bg1),var(--bg2));
+    z-index:-2;
+    animation: bgMove 18s ease-in-out infinite;
+    filter: blur(12px);
+  }
+  @keyframes bgMove{
+    0%{transform: translateY(-6%) rotate(0deg) scale(1)}
+    50%{transform: translateY(6%) rotate(2deg) scale(1.02)}
+    100%{transform: translateY(-6%) rotate(0deg) scale(1)}
+  }
+
+  .wrap{
+    width:100%;
+    max-width:980px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:20px;
+    padding:20px;
+    box-shadow: 0 12px 40px rgba(2,18,50,0.55);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  header{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .logo{
+    width:84px;
+    height:84px;
+    border-radius:12px;
+    overflow:hidden;
+    flex-shrink:0;
+    box-shadow: 0 6px 18px rgba(2,18,50,0.6);
+    border:1px solid rgba(255,255,255,0.04);
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .title{ flex:1 }
+  .title h1{ margin:0; font-size:20px; letter-spacing:0.6px; }
+  .title p{ margin:6px 0 0 0; color:var(--muted); font-size:13px; }
+
+  .cta{ display:flex; gap:8px; align-items:center; }
+  .btn{
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.05);
+    color:var(--text);
+    padding:8px 12px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    transition: transform .14s ease, box-shadow .14s ease, opacity .14s;
+  }
+  .btn:active{ transform: translateY(1px) }
+  .btn.primary{
+    background: linear-gradient(90deg,var(--accent), rgba(127,209,255,0.25));
+    color:#00203a;
+    box-shadow: 0 6px 20px rgba(0,88,184,0.18);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:12px;
+  }
+  @media (max-width:640px){
+    .grid{ grid-template-columns: 1fr }
+    header{ flex-direction:row }
+  }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:var(--radius);
+    padding:14px;
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    cursor:pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+    border:1px solid rgba(255,255,255,0.03);
+    position:relative;
+    overflow:hidden;
+  }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 20px 60px rgba(2,18,50,0.45); }
+  .card h3{ margin:0; font-size:16px; }
+  .card p{ margin:6px 0 0 0; color:var(--muted); font-size:13px; }
+  .card .hint{ font-size:12px; color:rgba(255,255,255,0.55); }
+
+  .panel{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%) scale(.98);
+    width:92%;
+    max-width:820px;
+    max-height:86vh;
+    overflow:auto;
+    background: linear-gradient(180deg, rgba(3,17,45,0.98), rgba(4,29,60,0.98));
+    border-radius:16px;
+    box-shadow: 0 30px 90px rgba(2,12,40,0.7);
+    border:1px solid rgba(255,255,255,0.04);
+    padding:18px;
+    z-index:200;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .18s ease, transform .18s ease;
+  }
+  .panel.open{ opacity:1; pointer-events:auto; transform: translate(-50%,-50%) scale(1); }
+  .panel header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .panel .content{ margin-top:12px; color:var(--muted); font-size:14px; line-height:1.6; }
+  .close{ background:transparent; border:0; color:var(--muted); padding:8px; font-weight:700; cursor:pointer; border-radius:10px; }
+
+  .rules-list{ padding-left:16px; margin:10px 0; }
+  .rules-list li{ margin:8px 0; }
+
+  .row{ display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+  .link{
+    padding:8px 10px;
+    border-radius:10px;
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,0.03);
+    font-weight:600;
+    color:var(--muted);
+    font-size:13px;
+    text-decoration:none;
+  }
+  .small{ font-size:13px; color:var(--muted) }
+
+  .toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background: rgba(2,30,60,0.92);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:10px;
+    box-shadow: 0 8px 30px rgba(2,18,50,0.6);
+    display:none;
+    z-index:400;
+  }
+  .toast.show{ display:block; animation: pop .28s ease; }
+  @keyframes pop { from { transform: translateY(6px); opacity:0 } to { transform: translateY(0); opacity:1 } }
+
+  .divider{ height:1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent); margin:12px 0; border-radius:4px; }
+
+  footer{
+    margin-top:14px;
+    font-size:13px;
+    text-align:center;
+    position:relative;
+    padding:12px;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .footer-bg {
+    position:absolute;
+    inset:0;
+    background: linear-gradient(90deg, rgba(127,209,255,0.06), rgba(0,88,184,0.04), rgba(127,209,255,0.03));
+    filter: blur(14px);
+    opacity:0.9;
+    transform: translateY(0);
+    animation: footerFloat 8s ease-in-out infinite;
+    z-index:-1;
+  }
+  @keyframes footerFloat{
+    0%{ transform: translateY(0) scale(1); opacity:0.9; }
+    50%{ transform: translateY(-4px) scale(1.01); opacity:1; }
+    100%{ transform: translateY(0) scale(1); opacity:0.9; }
+  }
+
+  .footer-credit {
+    position:relative;
+    color:var(--muted);
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:8px;
+    backdrop-filter: blur(4px);
+  }
+  .footer-credit a{
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:700;
+    padding:2px 6px;
+    border-radius:6px;
+    transition: text-shadow .18s ease, transform .12s ease;
+  }
+  .footer-credit a:hover{
+    text-decoration:underline;
+    text-shadow: 0 6px 26px rgba(127,209,255,0.18);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width:420px){
+    header { gap:10px }
+    .logo{ width:66px; height:66px }
+    .title h1{ font-size:18px }
+  }
+</style>
+</head>
+<body>
+  <div class="animated-bg" aria-hidden="true"></div>
+
+  <div class="wrap" role="main" aria-label="VisekaiCity Main">
+    <header>
+      <div class="logo" title="VisekaiCity Logo">
+        <img src="visekai_city.jpeg" alt="Logo VisekaiCity">
+      </div>
+
+      <div class="title">
+        <h1>VisekaiCity — Official Website</h1>
+        <p>Selamat datang di VisekaiCity official website</p>
+      </div>
+
+      <div class="cta">
+        <button class="btn" id="open-home">Open</button>
+        <a class="btn primary" href="https://discord.gg/VBWc9VjQDD" target="_blank" rel="noopener">Join Discord</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="grid" role="list">
+        <div class="card" role="listitem" data-panel="home" aria-label="Home">
+          <div>
+            <h3>Home</h3>
+            <p>Perkenalan singkat & shortcut ke informasi server.</p>
+          </div>
+          <div class="hint">Tap untuk buka</div>
+        </div>
+
+        <div class="card" role="listitem" data-panel="server" aria-label="Server Info">
+          <div>
+            <h3>Server Info</h3>
+            <p>Info IP, status server, dan link langsung.</p>
+          </div>
+          <div class="hint">Tap untuk buka</div>
+        </div>
+
+        <div class="card" role="listitem" data-panel="rules-server" aria-label="Server Rules">
+          <div>
+            <h3>Server Rules</h3>
+            <p>Aturan yang wajib dipatuhi saat main di server VisekaiCity.</p>
+          </div>
+          <div class="hint">Tap untuk buka</div>
+        </div>
+
+        <div class="card" role="listitem" data-panel="rules-group" aria-label="Group Rules">
+          <div>
+            <h3>Group Rules</h3>
+            <p>Aturan untuk grup (Discord / WhatsApp)</p>
+          </div>
+          <div class="hint">Tap untuk buka</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <footer aria-label="Footer">
+        <div class="footer-bg" aria-hidden="true"></div>
+        <div class="footer-credit">
+          Dibuat oleh <a href="https://stevensaa-re.github.io/stvnproject" target="_blank" rel="noopener">STN PROJECT REBORN</a>
+        </div>
+        <div style="margin-top:8px; color:var(--muted); font-size:12px">Server on 24 jam pada hari: Jumat, Sabtu, Minggu & hari libur. Server on: jam 05:00 — Server off: jam 20:00</div>
+      </footer>
+    </main>
+  </div>
+
+  <div id="panel-home" class="panel" aria-hidden="true" role="dialog" aria-labelledby="home-title">
+    <header>
+      <div>
+        <h2 id="home-title">Home</h2>
+        <div class="small">Selamat datang di VisekaiCity official website</div>
+      </div>
+      <div><button class="close" data-close aria-label="Close panel">&times;</button></div>
+    </header>
+    <div class="content">
+      <p>Halo! Selamat datang di VisekaiCity — komunitas mabar survival yang hangat dan seru. Di sini kamu bisa menemukan info server, bergabung ke Discord, dan membaca aturan agar suasana tetap ramah untuk semua.</p>
+
+      <div class="row">
+        <a class="link" href="https://discord.gg/VBWc9VjQDD" target="_blank" rel="noopener">Discord: VisekaiCity</a>
+        <button class="link" onclick="copyText('et-halloween.gl.joinmc.link')">Copy IP: et-halloween.gl.joinmc.link</button>
+        <button class="link" onclick="copyText('https://discord.gg/VBWc9VjQDD')">Copy Discord Link</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-server" class="panel" aria-hidden="true" role="dialog" aria-labelledby="server-title">
+    <header>
+      <div>
+        <h2 id="server-title">Server Info</h2>
+        <div class="small">Detail koneksi & catatan</div>
+      </div>
+      <div><button class="close" data-close aria-label="Close panel">&times;</button></div>
+    </header>
+    <div class="content">
+      <h3 style="margin-top:6px">VisekaiCity Official Server</h3>
+      <p class="small">IP / Domain server:</p>
+      <div style="margin-top:6px"><strong>et-halloween.gl.joinmc.link</strong></div>
+
+      <ul class="rules-list" style="margin-top:12px">
+        <li><strong>Mode:</strong> SURVIVAL ONLY</li>
+        <li><strong>Waktu On:</strong> 05:00</li>
+        <li><strong>Waktu Off:</strong> 20:00</li>
+        <li><strong>Hari Operasional 24 jam:</strong> Jumat, Sabtu, Minggu & hari libur</li>
+      </ul>
+
+      <div class="row">
+        <button class="link" onclick="copyText('et-halloween.gl.joinmc.link')">Copy IP</button>
+        <a class="link" href="https://discord.gg/VBWc9VjQDD" target="_blank" rel="noopener">Buka Discord</a>
+      </div>
+
+      <div style="margin-top:12px; color:var(--muted); font-size:13px">
+        <strong>Catatan:</strong> Untuk masalah teknis atau report plugin, silakan lapor melalui channel yang tersedia di Discord server.
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-rules-server" class="panel" aria-hidden="true" role="dialog" aria-labelledby="rules-server-title">
+    <header>
+      <div>
+        <h2 id="rules-server-title">Server Rules</h2>
+        <div class="small">Patuhilah aturan ini saat bermain di server</div>
+      </div>
+      <div><button class="close" data-close aria-label="Close panel">&times;</button></div>
+    </header>
+    <div class="content">
+      <ol class="rules-list">
+        <li>Dilarang melakukan <strong>Griefing</strong>.</li>
+        <li>Dilarang menggunakan <strong>Cheat</strong> (hacks / client illegal).</li>
+        <li>Dilarang menggunakan <strong>bug</strong> atau <strong>exploit</strong> untuk keuntungan.</li>
+        <li>PvP hanya di <strong>area yang tersedia</strong>.</li>
+        <li>Dilarang menghancurkan property/rumah player lain.</li>
+        <li><strong>SURVIVAL ONLY!</strong></li>
+        <li>Hormati seluruh player di server.</li>
+        <li>Saling membantu sesama player.</li>
+        <li>Server aktif 24 jam pada hari: <em>Jumat, Sabtu, Minggu</em> dan hari libur.</li>
+        <li>Server on: jam <strong>05:00</strong> — Server off: jam <strong>20:00</strong>.</li>
+      </ol>
+
+      <div style="margin-top:10px; color:var(--muted); font-size:13px">
+        Pelanggaran berat (mis. griefing masif, cheat, doxxing) dapat berakibat pada <strong>ban permanen</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-rules-group" class="panel" aria-hidden="true" role="dialog" aria-labelledby="rules-group-title">
+    <header>
+      <div>
+        <h2 id="rules-group-title">Group Rules — Discord & WhatsApp</h2>
+        <div class="small">Aturan umum untuk menjaga kenyamanan komunitas</div>
+      </div>
+      <div><button class="close" data-close aria-label="Close panel">&times;</button></div>
+    </header>
+    <div class="content">
+      <h3>Rules Grup WhatsApp dan Discord</h3>
+      <ol class="rules-list">
+        <li>Toxic sewajarnya.</li>
+        <li>Jangan membahas konten 18+ atau dewasa.</li>
+        <li>Boleh membahas cewek (tapi hormati privasi & tidak melecehkan).</li>
+        <li>Boleh bahas di luar topik grup (selama tidak spam).</li>
+        <li>Hindari spam: tidak mengirim pesan berulang, forward berantai, atau promosi tanpa izin.</li>
+        <li>Jaga bahasa & sikap: tidak boleh mengancam, menghina, atau melakukan pelecehan.</li>
+        <li>Tidak membahas politik sensitif & ujaran kebencian.</li>
+        <li>Jaga privasi: jangan menyebarkan nomor, foto, atau data pribadi orang lain tanpa izin.</li>
+        <li>Tidak mengirim konten ilegal / link berbahaya / malware.</li>
+        <li>Ikuti arahan admin/moderator — keputusan admin bersifat final untuk keamanan grup.</li>
+        <li>Jika ada masalah pribadi, selesaikan secara pribadi atau lapor ke admin, jangan buat keributan di grup.</li>
+        <li>Gunakan channel yang tepat: obrolan game di chat utama, jual-beli di channel khusus (jika ada).</li>
+        <li>Hindari forward konten 18+, gore, atau hal yang jelas melanggar aturan platform.</li>
+      </ol>
+
+      <div class="divider"></div>
+
+      <div style="margin-top:10px; color:var(--muted); font-size:13px">
+        Jika ingin menambahkan rule lain, hubungi admin. Tujuan: membuat ruang yang nyaman dan aman untuk semua member.
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">Tersalin ke clipboard</div>
+
+<script>
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', ()=> openPanel(card.dataset.panel));
+  });
+  document.getElementById('open-home').addEventListener('click', ()=> openPanel('home'));
+  document.querySelectorAll('[data-close]').forEach(btn=>{
+    btn.addEventListener('click', closeAll);
+  });
+
+  function openPanel(name){
+    closeAll();
+    const map = { home:'panel-home', server:'panel-server', 'rules-server':'panel-rules-server', 'rules-group':'panel-rules-group' };
+    const id = map[name];
+    if(!id) return;
+    const el = document.getElementById(id);
+    el.classList.add('open');
+    el.setAttribute('aria-hidden','false');
+    setTimeout(()=> el.querySelector('[data-close]')?.focus(),120);
+  }
+
+  function closeAll(){
+    document.querySelectorAll('.panel.open').forEach(p=>{
+      p.classList.remove('open');
+      p.setAttribute('aria-hidden','true');
+    });
+  }
+
+  window.addEventListener('click', (e)=>{
+    document.querySelectorAll('.panel.open').forEach(p=>{
+      if(!p.contains(e.target) && !e.target.closest('.card')) {
+        p.classList.remove('open');
+        p.setAttribute('aria-hidden','true');
+      }
+    });
+  });
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') closeAll();
+  });
+
+  function copyText(txt){
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(()=> showToast('Tersalin: ' + txt)).catch(()=> showToast('Gagal menyalin'));
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.style.position='fixed'; ta.style.left='-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try{
+        document.execCommand('copy');
+        showToast('Tersalin: ' + txt);
+      }catch(err){
+        showToast('Gagal menyalin');
+      }
+      document.body.removeChild(ta);
+    }
+  }
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=> t.classList.remove('show'), 2000);
+  }
+
+  const mo = new MutationObserver(()=> {
+    const anyOpen = !!document.querySelector('.panel.open');
+    document.body.style.overflow = anyOpen ? 'hidden' : '';
+  });
+  mo.observe(document.body, { attributes: true, childList: true, subtree: true });
+</script>
+</body>
+</html>
