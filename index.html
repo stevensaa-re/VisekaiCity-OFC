@@ -1,293 +1,786 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>VisekaiCity — Official</title>
-<style>
-  :root{
-    --bg1:#022a64;
-    --bg2:#0057b8;
-    --card:#06213a;
-    --glass: rgba(255,255,255,0.04);
-    --accent: #7fd1ff;
-    --text: #e9f2ff;
-    --muted: #bcd6ff;
-    --radius: 14px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisekaiCity — Official Minecraft Server</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    color:var(--text);
-    background: linear-gradient(120deg,var(--bg1),var(--bg2));
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:28px;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    position:relative;
-    overflow:auto;
-  }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
-  .animated-bg{
-    position:fixed;
-    inset:-20%;
-    background: radial-gradient(800px 400px at 10% 20%, rgba(127,209,255,0.06), transparent 8%),
-                radial-gradient(600px 300px at 90% 80%, rgba(127,209,255,0.04), transparent 10%),
-                linear-gradient(120deg,var(--bg1),var(--bg2));
-    z-index:-2;
-    animation: bgMove 18s ease-in-out infinite;
-    filter: blur(12px);
-  }
-  @keyframes bgMove{
-    0%{transform: translateY(-6%) rotate(0deg) scale(1)}
-    50%{transform: translateY(6%) rotate(2deg) scale(1.02)}
-    100%{transform: translateY(-6%) rotate(0deg) scale(1)}
-  }
+    .bg-animation {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
 
-  .wrap{
-    width:100%;
-    max-width:980px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:20px;
-    padding:20px;
-    box-shadow: 0 12px 40px rgba(2,18,50,0.55);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.03);
-  }
+    .bg-animation::before,
+    .bg-animation::after {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
+      animation: float 8s ease-in-out infinite;
+    }
 
-  header{
-    display:flex;
-    gap:16px;
-    align-items:center;
-    margin-bottom:16px;
-  }
-  .logo{
-    width:84px;
-    height:84px;
-    border-radius:12px;
-    overflow:hidden;
-    flex-shrink:0;
-    box-shadow: 0 6px 18px rgba(2,18,50,0.6);
-    border:1px solid rgba(255,255,255,0.04);
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .logo img{width:100%;height:100%;object-fit:cover;display:block;}
-  .title{flex:1}
-  .title h1{margin:0;font-size:20px;letter-spacing:0.6px;}
-  .title p{margin:6px 0 0;color:var(--muted);font-size:13px;}
+    .bg-animation::before {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+    }
 
-  .cta{display:flex;gap:8px;align-items:center;}
-  .btn{
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.05);
-    color:var(--text);
-    padding:8px 12px;
-    border-radius:10px;
-    font-weight:600;
-    font-size:13px;
-    cursor:pointer;
-    transition: transform .14s ease, box-shadow .14s ease;
-  }
-  .btn:active{transform:translateY(1px)}
-  .btn.primary{
-    background: linear-gradient(90deg,var(--accent), rgba(127,209,255,0.25));
-    color:#00203a;
-    box-shadow: 0 6px 20px rgba(0,88,184,0.18);
-  }
+    .bg-animation::after {
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      bottom: -200px;
+      right: -200px;
+      animation-delay: 2s;
+    }
 
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(50px, 50px); }
+    }
 
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:var(--radius);
-    padding:14px;
-    min-height:120px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    cursor:pointer;
-    transition: transform .18s ease, box-shadow .18s ease;
-    border:1px solid rgba(255,255,255,0.03);
-  }
-  .card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(2,18,50,0.45);}
-  .card h3{margin:0;font-size:16px;}
-  .card p{margin:6px 0 0;color:var(--muted);font-size:13px;}
-  .card .hint{font-size:12px;color:rgba(255,255,255,0.55);}
+    nav {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-  .panel{
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%) scale(.98);
-    width:92%;
-    max-width:820px;
-    max-height:86vh;
-    overflow:auto;
-    background: linear-gradient(180deg, rgba(3,17,45,0.98), rgba(4,29,60,0.98));
-    border-radius:16px;
-    box-shadow: 0 30px 90px rgba(2,12,40,0.7);
-    border:1px solid rgba(255,255,255,0.04);
-    padding:18px;
-    z-index:200;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .18s ease, transform .18s ease;
-  }
-  .panel.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
-  .close{background:transparent;border:0;color:var(--muted);padding:8px;font-weight:700;cursor:pointer;}
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
 
-  .rules-list{padding-left:16px;margin:10px 0;}
-  .rules-list li{margin:8px 0;}
-  .row{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;}
-  .link{
-    padding:8px 10px;
-    border-radius:10px;
-    background:var(--glass);
-    border:1px solid rgba(255,255,255,0.03);
-    font-weight:600;
-    color:var(--muted);
-    font-size:13px;
-    text-decoration:none;
-  }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-  footer{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+    .nav-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
 
-  .toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    background: rgba(2,30,60,0.92);
-    color:var(--text);
-    padding:10px 14px;
-    border-radius:10px;
-    box-shadow:0 8px 30px rgba(2,18,50,0.6);
-    display:none;
-    z-index:400;
-    max-width:90%;
-    word-break:break-all;
-  }
-  .toast.show{display:block;animation:pop .28s ease;}
-  @keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
-</style>
+    .nav-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .nav-info h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .nav-info p {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    .nav-btn {
+      padding: 12px 30px;
+      border-radius: 25px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 100px 20px 80px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      opacity: 0.9;
+      margin-bottom: 15px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .server-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      border-radius: 50px;
+      margin-bottom: 40px;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 35px;
+      border-radius: 30px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px 80px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .card:hover::before {
+      left: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 1rem;
+      opacity: 0.8;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .card-hint {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(30px);
+      border-radius: 30px;
+      padding: 40px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+      animation: slideUp 0.4s ease;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .modal-body {
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .modal-body p {
+      margin-bottom: 15px;
+    }
+
+    .modal-body strong {
+      color: #60a5fa;
+    }
+
+    .info-box {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .info-box p {
+      margin-bottom: 10px;
+    }
+
+    .rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    .rules-list li {
+      padding: 15px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .copy-btn {
+      padding: 12px 25px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: rgba(34, 197, 94, 0.95);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      font-weight: 600;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      opacity: 0.7;
+      font-size: 0.95rem;
+    }
+
+    .footer a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover {
+      color: #3b82f6;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .hero {
+        padding: 80px 20px 60px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        justify-content: center;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        padding: 30px 20px;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .copy-btn {
+        width: 100%;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
 </head>
 <body>
-<div class="animated-bg" aria-hidden="true"></div>
-<div class="wrap">
-  <header>
-    <div class="logo"><img src="visekai_city.jpeg" alt="Logo VisekaiCity"></div>
-    <div class="title">
-      <h1>VisekaiCity — Official Website</h1>
-      <p>Selamat datang di VisekaiCity official website</p>
-    </div>
-    <div class="cta">
-      <button class="btn" id="open-home">Open</button>
-      <a class="btn primary" href="https://discord.gg/VBWc9VjQDD" target="_blank">Join Discord</a>
-    </div>
-  </header>
+  <div class="bg-animation"></div>
 
-  <div class="grid">
-    <div class="card" data-panel="home"><h3>Home</h3><p>Perkenalan singkat & info server.</p><div class="hint">Tap untuk buka</div></div>
-    <div class="card" data-panel="server"><h3>Server Info</h3><p>IP, status server, dan link.</p><div class="hint">Tap untuk buka</div></div>
-    <div class="card" data-panel="rules-server"><h3>Server Rules</h3><p>Aturan server VisekaiCity.</p><div class="hint">Tap untuk buka</div></div>
-    <div class="card" data-panel="rules-group"><h3>Group Rules</h3><p>Aturan grup Discord / WA.</p><div class="hint">Tap untuk buka</div></div>
+  <nav>
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="nav-logo">
+          <img src="visekai_city.jpeg" alt="VisekaiCity Logo">
+        </div>
+        <div class="nav-info">
+          <h1>VisekaiCity</h1>
+          <p>Official Minecraft Server</p>
+        </div>
+      </div>
+      <a href="https://discord.gg/VBWc9VjQDD" target="_blank" style="text-decoration: none;">
+        <button class="nav-btn">🎮 Join Discord</button>
+      </a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1 class="hero-title">Welcome to VisekaiCity</h1>
+    <p class="hero-subtitle">Komunitas Minecraft Survival yang Hangat dan Seru!</p>
+    
+    <div class="server-status">
+      <span class="status-dot"></span>
+      <span>Server Online</span>
+    </div>
+
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="openModal('server')">
+        🎮 Server Info
+      </button>
+      <button class="btn btn-secondary" onclick="openModal('home')">
+        📖 Tentang Kami
+      </button>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="cards-grid">
+      <div class="card" onclick="openModal('home')">
+        <div class="card-icon">🏠</div>
+        <h3 class="card-title">Home</h3>
+        <p class="card-desc">Perkenalan singkat tentang VisekaiCity dan komunitas kami</p>
+        <p class="card-hint">Klik untuk membaca lebih lanjut</p>
+      </div>
+
+      <div class="card" onclick="openModal('server')">
+        <div class="card-icon">🎮</div>
+        <h3 class="card-title">Server Info</h3>
+        <p class="card-desc">IP server, status, dan cara bergabung ke VisekaiCity</p>
+        <p class="card-hint">Klik untuk melihat detail</p>
+      </div>
+
+      <div class="card" onclick="openModal('rules-server')">
+        <div class="card-icon">📜</div>
+        <h3 class="card-title">Server Rules</h3>
+        <p class="card-desc">Peraturan yang harus dipatuhi saat bermain di server</p>
+        <p class="card-hint">Klik untuk membaca rules</p>
+      </div>
+
+      <div class="card" onclick="openModal('rules-group')">
+        <div class="card-icon">💬</div>
+        <h3 class="card-title">Group Rules</h3>
+        <p class="card-desc">Peraturan komunitas Discord dan WhatsApp</p>
+        <p class="card-hint">Klik untuk membaca rules</p>
+      </div>
+    </div>
   </div>
 
-  <footer>
-    Dibuat oleh <a href="https://stevensaa-re.github.io/stvnproject" target="_blank" style="color:var(--accent);font-weight:700;">STN PROJECT REBORN</a>
+  <footer class="footer">
+    <p>Dibuat oleh <a href="https://stevensaa-re.github.io/stvnproject" target="_blank">STN PROJECT REBORN</a> </p>
   </footer>
-</div>
 
-<!-- HOME -->
-<div id="panel-home" class="panel">
-  <header><h2>Home</h2><button class="close" data-close>&times;</button></header>
-  <div class="content">
-    <p>Halo! Selamat datang di VisekaiCity — komunitas mabar survival yang hangat dan seru. Di sini kamu bisa menemukan info server dan bergabung ke Discord.</p>
-    <div class="row">
-      <a class="link" href="https://discord.gg/VBWc9VjQDD" target="_blank">Discord: VisekaiCity</a>
+  <div class="modal" id="modal-home">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">🏠 Home</h2>
+        <button class="modal-close" onclick="closeModal('home')">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Halo! Selamat datang di <strong>VisekaiCity</strong> — komunitas mabar survival yang hangat dan seru.</p>
+        <p>Di sini kamu bisa menemukan info server dan bergabung ke Discord untuk bertemu dengan pemain lainnya, sharing tips, dan bersenang-senang bersama!</p>
+        <div class="info-box">
+          <p><strong>✨ Yang Bisa Kamu Dapatkan:</strong></p>
+          <p>• Komunitas ramah dan supportif</p>
+          <p>• Server survival yang fair dan balanced</p>
+          <p>• Event menarik dan hadiah</p>
+          <p>• Admin yang aktif dan helpful</p>
+        </div>
+        <div class="button-group">
+          <a href="https://discord.gg/VBWc9VjQDD" target="_blank" style="text-decoration: none;">
+            <button class="btn btn-primary">Join Discord Sekarang</button>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- SERVER INFO -->
-<div id="panel-server" class="panel">
-  <header><h2>Server Info</h2><button class="close" data-close>&times;</button></header>
-  <div class="content">
-    <p><strong>Java IP:</strong> et-halloween.gl.joinmc.link</p>
-    <p><strong>Bedrock IP:</strong> medical-instruction.gl.at.ply.gg<br><strong>Port:</strong> 10595</p>
+  <div class="modal" id="modal-server">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">🎮 Server Info</h2>
+        <button class="modal-close" onclick="closeModal('server')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="info-box">
+          <p><strong>☕ Java Edition IP:</strong></p>
+          <p style="font-size: 1.1rem; font-family: monospace; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">et-halloween.gl.joinmc.link</p>
+        </div>
 
-    <div style="margin-top:10px; font-size:13px; color:var(--muted); background:rgba(255,255,255,0.03); padding:10px; border-radius:8px;">
-      ⚠️ <strong>Patuhi semua peraturan server!</strong> rules ada di tab "Server Rules"<br>
-      🧱 <strong>Supported Minecraft:</strong> 1.19 – 1.21.8
+        <div class="info-box">
+          <p><strong>🪨 Bedrock Edition IP:</strong></p>
+          <p style="font-size: 1.1rem; font-family: monospace; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px;">medical-instruction.gl.at.ply.gg</p>
+          <p><strong>Port:</strong> 10595</p>
+        </div>
+
+        <div class="info-box">
+          <p><strong>⚠️ Penting:</strong></p>
+          <p>• Patuhi semua peraturan server!</p>
+          <p>• Rules lengkap ada di tab "Server Rules"</p>
+          <p>• Supported: Minecraft 1.19 — 1.21.8</p>
+          <p>• Server aktif: Jumat—Minggu & hari libur</p>
+          <p>• Jam operasional: 05.00 - 20.00 WIB</p>
+        </div>
+
+        <div class="button-group">
+          <button class="copy-btn" onclick="copyText('et-halloween.gl.joinmc.link')">📋 Copy IP Java</button>
+          <button class="copy-btn" onclick="copyText('medical-instruction.gl.at.ply.gg:10595')">📋 Copy IP Bedrock</button>
+          <a href="https://discord.gg/VBWc9VjQDD" target="_blank" style="text-decoration: none;">
+            <button class="copy-btn" style="background: linear-gradient(135deg, #5865F2, #7289DA); border: none;">🎮 Join Discord</button>
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="row" style="margin-top:12px;">
-      <button class="link" onclick="copyText('et-halloween.gl.joinmc.link')">Copy IP Java</button>
-      <button class="link" onclick="copyText('medical-instruction.gl.at.ply.gg:10595')">Copy IP Bedrock</button>
-      <a class="link" href="https://discord.gg/VBWc9VjQDD" target="_blank">Buka Discord</a>
+  <div class="modal" id="modal-rules-server">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">📜 Server Rules</h2>
+        <button class="modal-close" onclick="closeModal('rules-server')">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Harap patuhi semua peraturan berikut agar server tetap nyaman untuk semua pemain:</p>
+        <ul class="rules-list">
+          <li><strong>1.</strong> Dilarang Griefing (merusak bangunan orang lain)</li>
+          <li><strong>2.</strong> Dilarang menggunakan Cheat/Hack</li>
+          <li><strong>3.</strong> Dilarang exploit bug untuk keuntungan pribadi</li>
+          <li><strong>4.</strong> PvP hanya di area yang sudah ditentukan</li>
+          <li><strong>5.</strong> Jangan menghancurkan rumah atau properti pemain lain</li>
+          <li><strong>6.</strong> SURVIVAL ONLY! Jangan minta creative/items</li>
+          <li><strong>7.</strong> Hormati sesama pemain, no toxic behavior</li>
+          <li><strong>8.</strong> Saling membantu dan supportif</li>
+          <li><strong>9.</strong> Server aktif Jumat—Minggu & hari libur</li>
+          <li><strong>10.</strong> Jam operasional: 05.00 - 20.00 WIB</li>
+        </ul>
+        <div class="info-box">
+          <p><strong>⚠️ Pelanggaran rules akan mengakibatkan:</strong></p>
+          <p>• Warning pertama</p>
+          <p>• Kick dari server</p>
+          <p>• Ban permanent (untuk pelanggaran berat)</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<!-- SERVER RULES -->
-<div id="panel-rules-server" class="panel">
-  <header><h2>Server Rules</h2><button class="close" data-close>&times;</button></header>
-  <div class="content">
-    <ol class="rules-list">
-      <li>Dilarang Griefing</li><li>Dilarang Cheat</li><li>Dilarang bug/exploit</li>
-      <li>PvP di area khusus</li><li>Jangan hancurkan rumah orang</li>
-      <li>SURVIVAL ONLY!</li><li>Hormati sesama player</li>
-      <li>Saling membantu</li><li>Server aktif Jumat–Minggu & libur</li>
-      <li>On: 05.00, Off: 20.00</li>
-    </ol>
+  
+  <div class="modal" id="modal-rules-group">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">💬 Group Rules</h2>
+        <button class="modal-close" onclick="closeModal('rules-group')">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Peraturan untuk Discord dan WhatsApp Group VisekaiCity:</p>
+        <ul class="rules-list">
+          <li><strong>1.</strong> Toxic sewajarnya, jangan berlebihan</li>
+          <li><strong>2.</strong> Dilarang membahas konten 18+</li>
+          <li><strong>3.</strong> Boleh bahas cewek, asal tetap sopan dan respect</li>
+          <li><strong>4.</strong> Boleh off-topic, tapi jangan spam berlebihan</li>
+          <li><strong>5.</strong> Hindari promosi tanpa izin admin</li>
+          <li><strong>6.</strong> Hormati semua member dan admin</li>
+          <li><strong>7.</strong> Jaga privasi dan data pribadi orang lain</li>
+        </ul>
+        <div class="info-box">
+          <p><strong>💡 Tips untuk pengalaman terbaik:</strong></p>
+          <p>• Be friendly dan ramah ke semua orang</p>
+          <p>• Aktif ikut diskusi dan event</p>
+          <p>• Help newbie yang baru join</p>
+          <p>• Report masalah ke admin jika ada</p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- GROUP RULES -->
-<div id="panel-rules-group" class="panel">
-  <header><h2>Group Rules</h2><button class="close" data-close>&times;</button></header>
-  <div class="content">
-    <ol class="rules-list">
-      <li>Toxic sewajarnya</li><li>Jangan bahas 18+</li><li>Boleh bahas cewek, asal sopan</li>
-      <li>Boleh off-topic asal gak spam</li><li>Hindari promosi tanpa izin</li>
-      <li>Hormati semua member & admin</li><li>Jaga privasi orang lain</li>
-    </ol>
-  </div>
-</div>
+  <div class="toast" id="toast"></div>
 
-<div id="toast" class="toast">Tersalin ke clipboard</div>
+  <script>
+    function openModal(name) {
+      const modal = document.getElementById('modal-' + name);
+      if (modal) {
+        modal.classList.add('active');
+      }
+    }
 
-<script>
-document.querySelectorAll('.card').forEach(c=>c.onclick=()=>openPanel(c.dataset.panel));
-document.getElementById('open-home').onclick=()=>openPanel('home');
-document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeAll);
+    function closeModal(name) {
+      const modal = document.getElementById('modal-' + name);
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
 
-function openPanel(name){
-  closeAll();
-  const el=document.getElementById('panel-'+name);
-  if(el){el.classList.add('open');}
-}
-function closeAll(){
-  document.querySelectorAll('.panel.open').forEach(p=>p.classList.remove('open'));
-}
-function copyText(txt){
-  navigator.clipboard?.writeText(txt).then(()=>showToast('Tersalin: '+txt)).catch(()=>showToast('Gagal menyalin'));
-}
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2000);
-}
-</script>
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+
+    function copyText(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('✅ Tersalin: ' + text);
+        }).catch(() => {
+          showToast('❌ Gagal menyalin');
+        });
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          showToast('✅ Tersalin: ' + text);
+        } catch (err) {
+          showToast('❌ Gagal menyalin');
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal.active').forEach(modal => {
+          modal.classList.remove('active');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
