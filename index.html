@@ -57,6 +57,7 @@
       50% { transform: translate(50px, 50px); }
     }
 
+    /* Navigation */
     nav {
       background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(20px);
@@ -126,7 +127,7 @@
       transform: translateY(-3px);
       box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
     }
-    
+
     .hero {
       text-align: center;
       padding: 100px 20px 80px;
@@ -593,7 +594,7 @@
   </div>
 
   <footer class="footer">
-    <p>Dibuat oleh <a href="https://stevensaa-re.github.io/stvnproject" target="_blank">STN PROJECT REBORN</a> </p>
+    <p>Dibuat oleh <a href="https://stevensaa-re.github.io/stvnproject" target="_blank">STN PROJECT REBORN</a> - RE Project </p>
   </footer>
 
   <div class="modal" id="modal-home">
@@ -629,28 +630,22 @@
       </div>
       <div class="modal-body">
         <div class="info-box">
-          <p><strong>☕ Java Edition IP:</strong></p>
+          <p><strong>☕ Server IP (Java Edition Only):</strong></p>
           <p style="font-size: 1.1rem; font-family: monospace; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">et-halloween.gl.joinmc.link</p>
-        </div>
-
-        <div class="info-box">
-          <p><strong>🪨 Bedrock Edition IP:</strong></p>
-          <p style="font-size: 1.1rem; font-family: monospace; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px;">medical-instruction.gl.at.ply.gg</p>
-          <p><strong>Port:</strong> 10595</p>
         </div>
 
         <div class="info-box">
           <p><strong>⚠️ Penting:</strong></p>
           <p>• Patuhi semua peraturan server!</p>
           <p>• Rules lengkap ada di tab "Server Rules"</p>
-          <p>• Supported: Minecraft 1.19 — 1.21.8</p>
+          <p>• Supported: Minecraft Java Edition 1.19 — 1.21.8</p>
+          <p>• ❌ Bedrock Edition tidak lagi didukung</p>
           <p>• Server aktif: Jumat—Minggu & hari libur</p>
           <p>• Jam operasional: 05.00 - 20.00 WIB</p>
         </div>
 
         <div class="button-group">
-          <button class="copy-btn" onclick="copyText('et-halloween.gl.joinmc.link')">📋 Copy IP Java</button>
-          <button class="copy-btn" onclick="copyText('medical-instruction.gl.at.ply.gg:10595')">📋 Copy IP Bedrock</button>
+          <button class="copy-btn" onclick="copyText('et-halloween.gl.joinmc.link')">📋 Copy Server IP</button>
           <a href="https://discord.gg/VBWc9VjQDD" target="_blank" style="text-decoration: none;">
             <button class="copy-btn" style="background: linear-gradient(135deg, #5865F2, #7289DA); border: none;">🎮 Join Discord</button>
           </a>
@@ -688,7 +683,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="modal" id="modal-rules-group">
     <div class="modal-content">
       <div class="modal-header">
@@ -750,6 +745,7 @@
           showToast('❌ Gagal menyalin');
         });
       } else {
+        // Fallback for older browsers
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);
