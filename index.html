@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VisekaiCity — Official</title>
+  <title>VisekaiCity — Official website</title>
   <style>
     * {
       margin: 0;
@@ -217,6 +217,17 @@
     .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: translateY(-3px);
+    }
+
+    .btn-map {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-map:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
     }
 
     .container {
@@ -554,6 +565,11 @@
       <button class="btn btn-primary" onclick="openModal('server')">
         🎮 Server Info
       </button>
+      <a href="https://nontarnishing-eternally-mervin.ngrok-free.dev/" target="_blank" style="text-decoration: none;">
+        <button class="btn btn-map">
+          🗺️ Server Map
+        </button>
+      </a>
       <button class="btn btn-secondary" onclick="openModal('home')">
         📖 Tentang Kami
       </button>
@@ -574,6 +590,13 @@
         <h3 class="card-title">Server Info</h3>
         <p class="card-desc">IP server, status, dan cara bergabung ke VisekaiCity</p>
         <p class="card-hint">Klik untuk melihat detail</p>
+      </div>
+
+      <div class="card" onclick="window.open('https://nontarnishing-eternally-mervin.ngrok-free.dev/', '_blank')">
+        <div class="card-icon">🗺️</div>
+        <h3 class="card-title">Server Map</h3>
+        <p class="card-desc">Lihat peta server secara realtime dan jelajahi dunia VisekaiCity</p>
+        <p class="card-hint">Klik untuk membuka map</p>
       </div>
 
       <div class="card" onclick="openModal('rules-server')">
@@ -611,6 +634,7 @@
           <p>• Server survival yang fair dan balanced</p>
           <p>• Event menarik dan hadiah</p>
           <p>• Admin yang aktif dan helpful</p>
+          <p>• Server map realtime untuk eksplorasi</p>
         </div>
         <div class="button-group">
           <a href="https://discord.gg/ZW63a2eNyr" target="_blank" style="text-decoration: none;">
@@ -639,15 +663,18 @@
           <p><strong>⚠️ Penting:</strong></p>
           <p>• Patuhi semua peraturan server!</p>
           <p>• Rules lengkap ada di tab "Server Rules"</p>
-          <p>• Supported: Minecraft Java Edition 1.19 — 1.21.11</p>
-          <p>• Bedrock : Minecraft Bedrock Edition 1.19 - 1.21.xx!</p>
-          <p>• Server aktif: 24/7 r</p>
+          <p>• Java : Minecraft Java Edition 1.19 — 1.21.11</p>
+          <p>• Bedrock : Minecraft Bedrock Edition 1.21.xx!</p>
+          <p>• Server aktif: 24/7</p>
           <p>• Server offline jika ada update/shutdown server</p>
         </div>
 
         <div class="button-group">
-          <button class="copy-btn" onclick="copyText('whooping-report.gl.joinmc.link')">📋 Copy Server IP (java)</button>
+          <button class="copy-btn" onclick="copyText('whooping-report.gl.joinmc.link')">📋 Copy Server IP (Java)</button>
           <button class="copy-btn" onclick="copyText('days-commonwealth.gl.at.ply.gg:52802')">📋 Copy Server IP (Bedrock)</button>
+          <a href="https://nontarnishing-eternally-mervin.ngrok-free.dev/" target="_blank" style="text-decoration: none;">
+            <button class="copy-btn" style="background: linear-gradient(135deg, #10b981, #059669); border: none;">🗺️ Lihat Server Map</button>
+          </a>
           <a href="https://discord.gg/ZW63a2eNyr" target="_blank" style="text-decoration: none;">
             <button class="copy-btn" style="background: linear-gradient(135deg, #5865F2, #7289DA); border: none;">🎮 Join Discord</button>
           </a>
