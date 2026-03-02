@@ -474,6 +474,111 @@
       color: #3b82f6;
     }
 
+    /* About Me styles */
+    .about-profile {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 25px;
+      padding: 25px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+      border-radius: 20px;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .about-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+      border: 3px solid rgba(139, 92, 246, 0.6);
+      overflow: hidden;
+    }
+
+    .about-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-name {
+      font-size: 1.6rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 5px;
+    }
+
+    .about-age {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .about-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      background: rgba(255,255,255,0.08);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0 20px;
+    }
+
+    .skill-tag {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .skill-tag:hover {
+      transform: translateY(-2px);
+    }
+
+    .tag-blue {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.5);
+      color: #93c5fd;
+    }
+
+    .tag-purple {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: rgba(139, 92, 246, 0.5);
+      color: #c4b5fd;
+    }
+
+    .tag-green {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #6ee7b7;
+    }
+
+    .tag-pink {
+      background: rgba(236, 72, 153, 0.2);
+      border-color: rgba(236, 72, 153, 0.5);
+      color: #f9a8d4;
+    }
+
+    .tag-orange {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: rgba(245, 158, 11, 0.5);
+      color: #fcd34d;
+    }
+
     @media (max-width: 768px) {
       .nav-container {
         flex-direction: column;
@@ -511,6 +616,11 @@
 
       .copy-btn {
         width: 100%;
+      }
+
+      .about-profile {
+        flex-direction: column;
+        text-align: center;
       }
     }
 
@@ -611,6 +721,13 @@
         <h3 class="card-title">Group Rules</h3>
         <p class="card-desc">Peraturan komunitas Discord dan WhatsApp</p>
         <p class="card-hint">Klik untuk membaca rules</p>
+      </div>
+
+      <div class="card" onclick="openModal('about')">
+        <div class="card-icon">👨‍💻</div>
+        <h3 class="card-title">About Me</h3>
+        <p class="card-desc">Kenalan sama developer & owner di balik VisekaiCity</p>
+        <p class="card-hint">Klik untuk lihat profil</p>
       </div>
     </div>
   </div>
@@ -737,6 +854,53 @@
           <p>• Help newbie yang baru join</p>
           <p>• Report masalah ke admin jika ada</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-about">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">👨‍💻 About the Owner</h2>
+        <button class="modal-close" onclick="closeModal('about')">×</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="about-profile">
+          <div class="about-avatar">
+            <img src="fotoOwner.jpeg" alt="Steven Samuel Setiawan">
+          </div>
+          <div>
+            <div class="about-name">Steven Samuel Setiawan</div>
+            <div class="about-age">🎂 15 Tahun</div>
+            <div class="about-location">📍 Bandung, Indonesia</div>
+          </div>
+        </div>
+
+        <p>Halo! Aku <strong>Steven</strong>, owner dan developer di balik VisekaiCity. Passionate banget di dunia teknologi sejak masih muda, dan terus belajar setiap harinya.</p>
+
+        <div class="info-box">
+          <p><strong>🛠️ Bidang Keahlian:</strong></p>
+          <div class="skill-tags">
+            <span class="skill-tag tag-blue">🌐 Web Developer</span>
+            <span class="skill-tag tag-green">🖥️ Server Engineer</span>
+            <span class="skill-tag tag-purple">💻 Coder</span>
+            <span class="skill-tag tag-pink">🎧 Audio Enthusiast</span>
+            <span class="skill-tag tag-orange">🖱️ PC Enthusiast</span>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p><strong>Jobdesk (anjai jobdesk :V):</strong></p>
+          <p>• Ngebangun komuitas VisekaiCity dan ngurusin server Minecraft </p>
+        </div>
+
+        <div class="button-group">
+          <a href="https://stevensaa-re.github.io/stvnproject" target="_blank" style="text-decoration: none;">
+            <button class="copy-btn" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); border: none;">🚀 Lihat Projects</button>
+          </a>
+        </div>
+
       </div>
     </div>
   </div>
